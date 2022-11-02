@@ -1,10 +1,9 @@
 import json
-
 from flask import Blueprint, jsonify, request
-
 from app import db
 from app.models import Offers
 
+# create blueprint
 offer_blueprint = Blueprint("offer_blueprint", __name__)
 
 
@@ -18,7 +17,9 @@ def get_all_offers():
         return jsonify(res)
 
     if request.method == "POST":
+        # get data from request
         offer_data = json.loads(request.data)
+        # create new offer
         offer = Offers(
             id=offer_data.get("id"),
             order_id=offer_data.get("order_id"),
@@ -35,9 +36,10 @@ def offer_by_pk(pk):
         offer = Offers.query.get(pk)
         return jsonify(offer.to_dict())
     if request.method == "PUT":
+        # get data from request
         offer_data = json.loads(request.data)
+        # get data from database and change
         offer = Offers.query.get(pk)
-
         offer.id = offer_data.get("id")
         offer.order_id = offer_data.get("order_id")
         offer.executor_id = offer_data.get("executor_id")

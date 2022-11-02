@@ -1,6 +1,10 @@
 from app import db
 
+# clear MetaData
 db.metadata.clear()
+
+
+# create models
 class Users(db.Model):
     __tablename__ = "user"
     id = db.Column(db.Integer, primary_key=True)
@@ -11,7 +15,8 @@ class Users(db.Model):
     role = db.Column(db.String(100))
     phone = db.Column(db.String(100))
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        """Return dict from database"""
         return {
             "id": self.id,
             "first_name": self.first_name,
@@ -35,7 +40,8 @@ class Orders(db.Model):
     customer_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     executor_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        """Return dict from database"""
         return {
             "id": self.id,
             "name": self.name,
@@ -55,7 +61,8 @@ class Offers(db.Model):
     order_id = db.Column(db.Integer, db.ForeignKey("order.id"))
     executor_id = db.Column(db.Integer, db.ForeignKey("user.id"))
 
-    def to_dict(self):
+    def to_dict(self) -> dict:
+        """Return dict from database"""
         return {
             "id": self.id,
             "order_id": self.order_id,

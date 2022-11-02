@@ -1,10 +1,9 @@
 import json
-
 from flask import Blueprint, jsonify, request
-
 from app import db
 from app.models import Orders
 
+# create blueprint
 order_blueprint = Blueprint("order_blueprint", __name__)
 
 
@@ -18,7 +17,9 @@ def get_all_orders():
         return jsonify(res)
 
     if request.method == "POST":
+        # get data from request
         order_data = json.loads(request.data)
+        # create new order
         user = Orders(
             id=order_data.get("id"),
             name=order_data.get("name"),
@@ -41,9 +42,11 @@ def order_by_pk(pk):
         order = Orders.query.get(pk)
         return jsonify(order.to_dict())
     if request.method == "PUT":
+        # get data from request
         order_data = json.loads(request.data)
-        order = Orders.query.get(pk)
+        # get data from database and change
 
+        order = Orders.query.get(pk)
         order.name = order_data.get("name")
         order.description = order_data.get("description")
         order.start_date = order_data.get("start_date")

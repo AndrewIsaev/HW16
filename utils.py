@@ -3,10 +3,15 @@ from app import db
 import app.models as models
 
 
-def init_database():
+def init_database() -> None:
+    """
+    Init database from json data
+    :return: None
+    """
     db.drop_all()
     db.create_all()
 
+    # fill user table
     for user in data.users:
         db.session.add(
             models.Users(
@@ -21,6 +26,7 @@ def init_database():
         )
         db.session.commit()
 
+    # fill order table
     for order in data.orders:
         db.session.add(
             models.Orders(
@@ -37,6 +43,7 @@ def init_database():
         )
         db.session.commit()
 
+    # fill offer table
     for offer in data.offers:
         db.session.add(
             models.Offers(

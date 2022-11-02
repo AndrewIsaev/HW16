@@ -1,10 +1,9 @@
 import json
-
 from flask import Blueprint, jsonify, request
-
 from app import db
 from app.models import Users
 
+# create blueprint
 user_blueprint = Blueprint("user_blueprint", __name__)
 
 
@@ -18,7 +17,9 @@ def get_all_users():
         return jsonify(res)
 
     if request.method == "POST":
+        # get data from request
         user_data = json.loads(request.data)
+        # create new user
         user = Users(
             id=user_data.get("id"),
             first_name=user_data.get("first_name"),
@@ -40,9 +41,10 @@ def users_by_pk(pk):
         return jsonify(user.to_dict())
 
     if request.method == "PUT":
+        # get data from request
         user_data = json.loads(request.data)
+        # get data from database and change
         user = Users.query.get(pk)
-
         user.first_name = user_data.get("first_name")
         user.last_name = user_data.get("last_name")
         user.age = user_data.get("age")
